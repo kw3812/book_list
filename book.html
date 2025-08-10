@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="book.css" media="screen" />
+
+  <title>BOOK_LIST</title>
+</head>
+
+<body>
+  <header>
+    <div class="hed_tilte">BOOK LIST</div>
+    <div id="data_count"></div>
+    <form class="combo_form">
+      <div class="sort">
+        <label for="sort">Sort</label>
+        <select name="sort" id="sort" onchange="sort_data()">
+          <option value="id_desk" selected>初期</option>
+          <option value="rubi_asc" >著者昇順</option>
+          <option value="rubi_desc" >著者降順</option>
+        </select>
+      </form>
+      <form class="search_form" name="search_form">
+        <input type="radio" class="radio" name="radio_btn" value="title" checked>
+        <label for="radio_btn" class="radio_label">Title</label>
+        <input type="radio" class="radio" name="radio_btn" value="writer">
+        <label for="radio_btn" class="radio_label">Writer</label>
+        <input type="text" placeholder="SearchWord" id="title_search" value=""  />
+        <input type="button" value="検索" id="search_btn" class="btn" onclick="search()">
+        <input type="button" value="解除" id="cls_btn" class="btn" onclick="cls()">
+      </form>
+    </div> 
+  </header>
+
+  <!-- データリスト表示エリア -->
+  <div id="list_id"></div>
+
+<div id="book_modal" >
+  <div class="modal_content">
+    <div id="modal_close" class="close">&times;</div>
+    <p id="title"></p>
+    <p id="writer"></p>
+    <p id="publisher"></p>
+    <p id="memo"></p>
+  </div>
+</div>
+
+  <!-- データの読み込みと表示 -->
+  <script src="./book.js"></script>
+  
+<script>
+    //  変数の初期化
+    let search_title = [];
+    let sort = "";
+    //　リストの表示エリアを取得
+    const list_id = document.getElementById("list_id");
+
+    //  検索の場合
+    function search(){
+      restate() // リストデータクリアの関数
+      // 検索ワード取得
+      search_word = document.getElementById("title_search").value;
+      // タイトル検索 or 著者検索
+      // ラジオボタンの1つ目（title）にチャックがかかっているか
+      check = document.search_form.radio_btn[0].checked;
+      // 引数をリストで送る['str', bool]
+      search_title = [search_word, check]
+      view_list( search_title, sort)
+    }
+     // 並び替え
+    function sort_data(){
+      restate()
+      // comboの値を取得
+      sort = document.getElementById("sort").value;
+      view_list( search_title, sort)
+    } 
+    view_list( search_title, sort)
+</script>
+</body>
+
+</html>

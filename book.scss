@@ -1,0 +1,222 @@
+$form_color : #FF6600;
+$back_color: #FFFF99;
+$screen_width: 800px;
+$text_color: white;
+$font_size: 160%;
+
+//  レスポンシブ対応
+$breakpoint: (
+    mb: 'screen and (max-width: 750px)',
+);
+
+@mixin mq($bp) {
+    @media #{map-get($breakpoint, $bp)} {
+        @content;
+    }
+}
+#book_modal{
+    display:none; 
+    position:fixed; 
+    overflow-y: auto;
+    width: 800px;
+    height: 500px;
+    top:50%; left:50%; 
+    transform:translate(-50%, -50%); 
+    background-color:#FFFFCC; 
+    padding:10px;
+    border:1px solid #e7522c; 
+    z-index:1000;
+    @include mq(mb) {
+        top:40%; right:0%; 
+        width: 80%;
+        height: 400Px;
+    }
+    #modal_close{
+        font-size: 230%;
+        margin-right: 10%;
+        padding: 0 10px;
+        width: 30px;
+        border: 1px solid black;
+        @include mq(mb) {
+        width: 20px;
+        padding: 0 5px;
+            font-size: 160%;
+        }
+    }
+}
+body {
+    max-width: $screen_width;
+    margin: 0 auto;
+
+    header {
+        position: relative;
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: $back_color ;
+        height: 120px;
+        max-width: $screen_width;
+        border: 5px ;
+        border-right: 5px;
+        border-top: 20px;
+        border-left: 40px;
+        border-style: solid;
+        border-color:  $form_color;
+
+        @include mq(mb) {
+            padding: 5px;
+            min-width: 340px;
+            height: 120px;
+        }
+
+        #data_count {
+            width: 7em;
+            margin-top: 10px;
+            color: $form_color;
+            @include mq(mb) {
+                position: absolute;
+            }
+        }
+
+        .hed_tilte {
+            color: $text_color;
+            margin-bottom:-50px;
+            font-weight: bold;
+            font-size: $font_size;
+
+            @include mq(mb) {
+                // font-size: 90%;
+                position: absolute;
+                top: 16px;
+                right: 10px;
+                z-index: 3;
+            }
+
+            text-align: right;
+            margin-right: 20px;
+            text-shadow: 3px 3px 3px rgb(128, 128, 128);
+        }
+
+        .combo_form {
+            width: 350px;
+            margin:0 0 0 45%;
+            padding: 5px 20px;
+            background-color: $form_color;
+            display: flex;
+            box-shadow:4px 4px 4px rgb(128, 128, 128);
+            @include mq(mb) {
+                font-size: 90%;
+                position: fixed;
+                padding: 5px 5px;
+                width: 330px;
+                top: 45px;
+                right:  15px;
+            }
+
+
+            label {
+                color: $text_color;
+
+                @include mq(mb) {
+                    font-size: 90%;
+                }
+            }
+
+            select {
+                border-color: $form_color;
+                color: $form_color;
+
+                @include mq(mb) {
+                    margin:0 3px 0 15px;
+                }
+            }
+        }
+
+        .search_form {
+                @include mq(mb) {
+                    font-size: 90%;
+                    margin: 0 0 0 5px;
+                }
+
+            input {
+                width: 7em;
+                border: 1px solid $form_color;
+                color: $form_color;
+
+                @include mq(mb) {
+                    margin-top: 3px;
+                }
+            }
+
+            .radio {
+                width: 1em;
+            }
+
+            .btn {
+                padding: 0;
+                background-color: white;
+                width: 3em;
+
+                &:hover {
+                    transform: translateY(1px);
+                    text-decoration: none;
+                    box-shadow: 0 2px 0 #aaaaaa;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+#list_id {
+    background-color: $back_color;
+    // display: flex;
+    // justify-content: center;
+    padding: 10px 5px;
+    border: 1px solid orange;
+    flex-wrap: wrap;
+    height: 700px;
+    overflow-y: auto;
+
+    li {
+        padding: 3px 0;
+        list-style-type: none;
+        border: 1px orange;
+        border-style: none none solid none;
+
+        @include mq(mb) {
+            font-size: 80%;
+        }
+
+        span {
+            display: inline-flex;
+            margin: 0 5px 0 5px;
+            padding: 0 5px 0 5px;
+            border: 1px;
+            border-color: orange;
+        }
+
+        .li_title {
+            width: 22em;
+            overflow: hidden;
+            white-space: nowrap;
+
+            @include mq(mb) {
+                width: 28em;
+            }
+        }
+
+        .li_writer,
+        .li_publisher {
+            width: 8em;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .li_disp {
+            margin: 0 5px 0 5px;
+            padding: 0 5px 0 5px;
+            width: 2em;
+            text-align: center;
+        }
+    }
+}
