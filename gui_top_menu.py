@@ -68,6 +68,7 @@ def data_backup():
 
     # JSONファイルをコピー
     url_org = "D:\\xampp/htdocs/book_list"
+    # アップロード用のフォルダ
     url_copy = "D:\\rekisi/walk/stamp"
     shutil.copy2(f'{url_org}/book.json', f'{url_copy}/book.json')
     # backup

@@ -4,6 +4,8 @@ from dbc_abc import BookData
 from typing import Union
 from typing import Optional
 from typing import Literal
+from set_logger import get_logger2
+
 
 class Book(BookData):
     '''書籍リスト
@@ -138,6 +140,7 @@ class Book(BookData):
     戻り値はタプル（自動生成されたＩＤ）
     '''        
     def insert(self,title:str,rubi:str,writer:int,publisher:int,memo:Optional[str],state:Literal['未読', '読書中', '既読'])->tuple:
+        logger_name = get_logger2(__name__)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
@@ -153,7 +156,9 @@ class Book(BookData):
         
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
+            logger_name.error(f"Error: {e}", exc_info=True)
         else:
+            logger_name.info(f"INSERT: {title}を追加。 ")
             self.conn.commit()
             return result    
         finally:
@@ -166,6 +171,7 @@ class Book(BookData):
     '''        
     def update(self,title:str,rubi:str,writer:int,publisher:int,memo:Optional[str],state:Literal['未読', '読書中', '既読'],id:int):
         # mysqlに接続
+        logger_name = get_logger2(__name__)
         try:
             cur = self.conn.cursor()
             # ＳＱＬ　
@@ -176,7 +182,9 @@ class Book(BookData):
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
+            logger_name.error(f"Error: {e}", exc_info=True)
         else:
+            logger_name.info(f"UPDATE: {title}のデータを変更。 ")
             self.conn.commit()    
         finally:
             cur.close()
@@ -186,7 +194,8 @@ class Book(BookData):
     引数は、ＩＤ（数値）
     戻り値はなし
     '''        
-    def delete(self,id:int):
+    def delete(self,id:int, title:str):
+        logger_name = get_logger2(__name__)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
@@ -197,7 +206,9 @@ class Book(BookData):
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
+            logger_name.error(f"Error: {e}", exc_info=True)
         else:
+            logger_name.info(f"Delete: {title}を削除。")
             self.conn.commit()    
         finally:
             cur.close()

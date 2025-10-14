@@ -77,18 +77,19 @@ class BookList:
                 words = self.search_word.get_keyword(input_text)   
             state = combo_state.get()
             sort = combo_sort.get()
+
             # リスト表示用のＳＱＬを呼ぶ
             if  search_flag == True:
                 if check_flg == True:
-                    union = UnionTable(sort)
-                    result,count_all = union.book_search(words)
+                    union = UnionTable()
+                    result,count_all = union.search(words)
                 else:
                     book = Book()
                     result,count_all = book.search(words,sort)
             else:
                 if check_flg == True:
                     union = UnionTable()
-                    result,count_all = union.book_list(sort)
+                    result,count_all = union.list(sort)
                 else:
                     book = Book()
                     result,count_all = book.list(sort,state)

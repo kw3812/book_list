@@ -1,14 +1,16 @@
 import MySQLdb
 import re
 from typing import Union
-import book_env
+from dbc_abc import BookData
+# import book_env
 
-class UnionTable():
+class UnionTable(BookData):
 
-    def __init__(self,sorted:str):
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
-        # タイトルのフリガナ昇順にする
-        # ORDER BY（並び替え、デフォルトＩＤ降順）
+    '''廃棄含む書籍リスト
+    引数は、並び替え、表示件数（文字列）
+    戻り値は、ＳＱＬの結果と総件数（タプル、タプル）
+    '''        
+    def list(self,sorted) ->tuple:
         match sorted:
             case 'タイトル昇順':
                 sorted = 'btr ASC'
@@ -22,13 +24,6 @@ class UnionTable():
                 sorted = 'id ASC'
             case _:
                 sorted = 'id DESC'
-        self.sorted = sorted
-
-    '''廃棄含む書籍リスト
-    引数は、並び替え、表示件数（文字列）
-    戻り値は、ＳＱＬの結果と総件数（タプル、タプル）
-    '''        
-    def book_list(self) ->tuple:
         try:
             cur = self.conn.cursor()
             cur1 = self.conn.cursor()
@@ -49,7 +44,7 @@ class UnionTable():
             sql_d = f"SELECT {col_book_d},{col_writer},{col_publisher} FROM {tables_d} "
             # 書籍テーブルと削除テーブルを結合して表示 limit 0,100
             # sql_union = f"{sql} UNION ALL {sql_d} ORDER BY {sorted} LIMIT {limit}"
-            sql_union = f"{sql} UNION ALL {sql_d} ORDER BY {self.sorted} "
+            sql_union = f"{sql} UNION ALL {sql_d} ORDER BY {sorted} "
             # ORDER BY（並び替え、デフォルトＩＤ降順）
             count = "SELECT FOUND_ROWS()"
             cur.execute(sql_union)
@@ -69,7 +64,7 @@ class UnionTable():
     引数は、検索ワード（文字列orリスト）
     戻り値は、ＳＱＬの結果と総件数（タプル、タプル）
     '''        
-    def book_search(self,words:Union[str, list]) ->tuple:
+    def search(self,words:Union[str, list]) ->tuple:
         try:
             cur = self.conn.cursor()
             cur1 = self.conn.cursor()
@@ -104,7 +99,7 @@ class UnionTable():
             sql_d = f"SELECT {col_book_d},{col_writer},{col_publisher} FROM {tables_d} WHERE {keyword1}"
             # 書籍テーブルと削除テーブルを結合して表示 limit 0,50
             # sql_union = f"{sql} UNION ALL {sql_d} ORDER BY {sorted} LIMIT {limit} "
-            sql_union = f"{sql} UNION ALL {sql_d} ORDER BY {self.sorted}  "
+            sql_union = f"{sql} UNION ALL {sql_d} ORDER BY id DESC "
             count = "SELECT FOUND_ROWS()"
             # ORDER BY（並び替え、デフォルトＩＤ降順）
             cur.execute(sql_union)
@@ -120,10 +115,19 @@ class UnionTable():
             cur1.close()
             self.conn.close()
 
+    def detail(self):
+        pass
+    def insert(self):
+        pass
+    def update(self):
+        pass
+    def delete(self):
+        pass
+    
 if __name__ == '__main__':
     sorted = 'id DESC'
     words = '戦国'
     union = UnionTable(sorted)
-    result = union.book_search(words)
+    result = union.search(words)
     # テスト用にタイトルと著者を表示（10件）
     print(result)

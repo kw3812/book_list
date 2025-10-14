@@ -143,7 +143,7 @@ class Detail:
                 disp.insert(self.book_title, self.book_rubi, self.writer_id, self.publisher_id, self.memo, self.create_time)
                 # 書籍テーブルから削除
                 book = Book()
-                book.delete(id)
+                book.delete(id, self.book_title)
                 root_dt.destroy()
             
         # 更新・削除 Button

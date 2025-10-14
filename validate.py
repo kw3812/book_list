@@ -55,6 +55,44 @@ def input_check(title:str, rubi:str, writer:str, publisher:str,*state:tuple[str]
             err_mes.append('未読・読書中・既読から選択\n')
     return err_mes, writer_id, publisher_id 
 
+'''
+書籍テーブル
+フリガナのバリデーション
+    （ひらがな・半角カタカナ・漢字）はFalseを返す
+それ以外はTrueを返す   
+''' 
+def v_rubi(word:str)->bool:
+    # ひらがな
+    hiragana = re.compile('[\u3041-\u309F]+')
+    # 半角カタカナ
+    kana = re.compile('[\uFF66-\uFF9F]+')
+    # 漢字
+    kanji = re.compile(r'\p{Script=Han}+')
+    # 入力文字の判定
+    match word:
+        case word if hiragana.match(word):
+                return False
+        case word if kana.match(word):
+                return False
+        case word if kanji.match(word):
+                return False
+        case _:
+                return True
+
+'''
+著者・出版社テーブル
+フリガナのバリデーション
+全角カタカナ以外はFalseを返す
+''' 
+def v_rubi2(word:str)->bool:
+    # 全角カタカナ
+    kana = re.compile('[\u30A1-\u30FF]+')
+    # 入力文字の判定
+    if kana.match(word):
+        return True
+    else:
+        return False      
+
 ''' 
 出版社の想定される間違いを是正する関数
 引数は入力された出版社名
@@ -110,42 +148,7 @@ def publisher_check(publisher:str)->str:
             publisher = 'マガジンハウス' 
         case 'ワンパブリッシング' | 'ONE PUBLISHING'| 'GetNavi'| 'ゲットナビ編集部' :
             publisher = 'ワン・パブリッシング' 
+        case '河出書房' | '河出文庫' | '河出新書' :
+            publisher = '河出書房新社' 
     return publisher     
-'''
-書籍テーブル
-フリガナのバリデーション
-    （ひらがな・半角カタカナ・漢字）はFalseを返す
-それ以外はTrueを返す   
-''' 
-def v_rubi(word:str)->bool:
-    # ひらがな
-    hiragana = re.compile('[\u3041-\u309F]+')
-    # 半角カタカナ
-    kana = re.compile('[\uFF66-\uFF9F]+')
-    # 漢字
-    kanji = re.compile(r'\p{Script=Han}+')
-    # 入力文字の判定
-    match word:
-        case word if hiragana.match(word):
-                return False
-        case word if kana.match(word):
-                return False
-        case word if kanji.match(word):
-                return False
-        case _:
-                return True
-
-'''
-著者・出版社テーブル
-フリガナのバリデーション
-全角カタカナ以外はFalseを返す
-''' 
-def v_rubi2(word:str)->bool:
-    # 全角カタカナ
-    kana = re.compile('[\u30A1-\u30FF]+')
-    # 入力文字の判定
-    if kana.match(word):
-        return True
-    else:
-        return False      
 

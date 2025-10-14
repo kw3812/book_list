@@ -3,6 +3,7 @@ import book_env
 from typing import Optional
 from dbc_abc import BookData
 from datetime import datetime
+from set_logger import get_logger2
 
 class Disp(BookData):
 
@@ -13,8 +14,9 @@ class Disp(BookData):
     '''
     def insert(self,title:str,rubi:str,writer:int,publisher:int,memo:Optional[str],create_time:datetime):
         # mysqlに接続
+        logger_name = get_logger2(__name__)
         try:
-            self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+            # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
             cur = self.conn.cursor()
             # ＳＱＬ　
             sql = "INSERT INTO disp_table(title,rubi,writer,publisher,memo,create_time) VALUES(%s, %s, %s, %s, %s, %s)"
@@ -22,7 +24,9 @@ class Disp(BookData):
             cur.execute(sql, val)
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
+            logger_name.error(f"Error: {e}", exc_info=True)
         else:
+            logger_name.info(f"INSERT:廃棄テーブルに {title}を移動。 ")
             self.conn.commit()    
         finally:
             cur.close()
@@ -33,7 +37,7 @@ class Disp(BookData):
     戻り値はなし
     '''        
     def update(self,title:str,rubi:str,writer:int,publisher:int,memo:Optional[str],id:int):
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
@@ -56,7 +60,7 @@ class Disp(BookData):
     戻り値は、ＳＱＬの結果（タプル）
     '''        
     def detail(self,id:int)->tuple:
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         try:
             cur = self.conn.cursor()
             columns = 'disp_table.id, disp_table.title, disp_table.rubi, disp_table.writer,writer_table.writer, disp_table.publisher, publisher_table.publisher,disp_table.memo, disp_table.create_time'
@@ -77,7 +81,7 @@ class Disp(BookData):
     戻り値はなし
     '''        
     def delete(self,id:int):
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
