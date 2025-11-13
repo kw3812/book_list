@@ -1,6 +1,7 @@
 import sqlalchemy as sa
 import pandas as pd
 from sql import book_json as bj
+import def_url
 
 # 該当テーブルのデータからデータフレームを作成
 def convert_json(table_name:str) -> pd.DataFrame:
@@ -47,7 +48,7 @@ def json_write(df_disp:pd.DataFrame, df_book:pd.DataFrame):
    # 降順で並び替え
     # df_table = df_table.sort_values('disposal',ascending=True)
     # df_table.sort_values(by=["disposal","id"], ascending=[True, False]) 
-    path = 'D:\\xampp/htdocs/book_list/book.json'
+    path = f'{def_url.book_url}/book.json'
     # jsonに変換（force_ascii日本語対応   orient='values'データのみ出力 ）
     json = df_table.to_json(path,orient='values',force_ascii=False)
     # print(json)

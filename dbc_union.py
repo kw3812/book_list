@@ -1,5 +1,3 @@
-import MySQLdb
-import re
 from typing import Union
 from dbc_abc import BookData
 # import book_env

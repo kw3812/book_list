@@ -65,7 +65,7 @@ class Book(BookData):
     def search(self,words:Union[str, list],sort:str)->tuple[tuple,tuple[int]]:
         try:
             cur = self.conn.cursor()
-            # cur1 = self.conn.cursor()
+            cur1 = self.conn.cursor()
             # キーワード用の変数       
             keyword = ''
             # ORDER BY（並び替え、デフォルトＩＤ降順）
@@ -83,17 +83,15 @@ class Book(BookData):
                 case _:
                     sorted = 'book_table.id DESC'
             # キーワードの数でＳＱＬを差し替える
-            word1 = f'%{words[0]}%'
-            word2 = f'%{words[1]}%'
-            if isinstance(words, list) and len(words) == 2:
+            if len(words) == 2:
+                word = words[0]
+                word1 = words[1]
                 # キーワード２つでタイトルとメモと著者から検索（word,word1）
-                keyword = "(book_table.title LIKE %s OR book_table.memo LIKE %s OR writer_table.writer LIKE %s) AND (book_table.title LIKE %s OR book_table.memo LIKE %s  OR writer_table.writer LIKE %s)"
-                values = (word1,word1,word1,word2,word2,word2)
+                keyword = f"(book_table.title LIKE '%{word}%' OR book_table.memo LIKE '%{word}%' OR writer_table.writer LIKE '%{word}%') AND (book_table.title LIKE '%{word1}%' OR book_table.memo LIKE '%{word1}%'  OR writer_table.writer LIKE '%{word1}%')"
             else:
-                # word = words
+                word = words
                 # キーワード一つでタイトルとメモと著者から検索（words）
-                keyword = "(book_table.title LIKE %s OR book_table.memo LIKE %s OR writer_table.writer LIKE %s)"
-                values = (word1,word1,word1)
+                keyword = f"book_table.title LIKE '%{words}%' OR book_table.memo LIKE '%{words}%' OR writer_table.writer LIKE '%{words}%'"
             # 著者名で検索（words）
             #keyword = f"writer_table.writer LIKE '%{words}%' "
             col_book = 'book_table.id, book_table.title, book_table.rubi, book_table.writer, book_table.publisher, book_table.memo, book_table.state, book_table.disposal, book_table.create_time'
@@ -103,16 +101,17 @@ class Book(BookData):
             # sql = f"SELECT SQL_CALC_FOUND_ROWS {col_book},{col_writer},{col_publisher} FROM {tables} WHERE {keyword} LIMIT {limit} "
             sql = f"SELECT SQL_CALC_FOUND_ROWS {col_book},{col_writer},{col_publisher} FROM {tables} WHERE {keyword} ORDER BY {sorted}  "
             count = "SELECT FOUND_ROWS()"
-            cur.execute(sql, values)
+            cur.execute(sql)
+            cur1.execute(count)
             result = cur.fetchall()
-            cur.execute(count)
-            count_all = cur.fetchone()
+            count_all = cur1.fetchone()
             return result,count_all
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
         finally:
             cur.close()
+            cur1.close()
             self.conn.close()
 
     '''書籍データ（個別）
@@ -215,13 +214,19 @@ class Book(BookData):
             cur.close()
             self.conn.close()
 
-if __name__ == '__main__':
-    words = '戦国'
-    limit = '0,50'
-    sort = ''
-    book = Book()
-    result = book.search(words,sort)
-    print(result)
+    # データ総数
+    # def all_count(self) -> tuple:
+    #     try:
+    #         cur = self.conn.cursor()
+    #         sql = "SELECT count(*) FROM book_table"
+    #         cur.execute(sql )
+    #         result = cur.fetchone()
+    #         return result
+    #     except Exception as e:
+    #         print('データベースの接続に失敗しました。',e)
+    #     finally:
+    #         cur.close()
+    #         self.conn.close()
 
 
 

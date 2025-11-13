@@ -1,6 +1,3 @@
-# import book_env
-# import re
-# import MySQLdb
 from typing import Optional
 from dbc_abc import BookData
 from dbc_apply import ApplyTo

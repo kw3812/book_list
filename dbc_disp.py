@@ -1,5 +1,3 @@
-import MySQLdb
-import book_env
 from typing import Optional
 from dbc_abc import BookData
 from datetime import datetime
@@ -16,7 +14,6 @@ class Disp(BookData):
         # mysqlに接続
         logger_name = get_logger2(__name__)
         try:
-            # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
             cur = self.conn.cursor()
             # ＳＱＬ　
             sql = "INSERT INTO disp_table(title,rubi,writer,publisher,memo,create_time) VALUES(%s, %s, %s, %s, %s, %s)"
@@ -37,7 +34,6 @@ class Disp(BookData):
     戻り値はなし
     '''        
     def update(self,title:str,rubi:str,writer:int,publisher:int,memo:Optional[str],id:int):
-        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
@@ -60,7 +56,6 @@ class Disp(BookData):
     戻り値は、ＳＱＬの結果（タプル）
     '''        
     def detail(self,id:int)->tuple:
-        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         try:
             cur = self.conn.cursor()
             columns = 'disp_table.id, disp_table.title, disp_table.rubi, disp_table.writer,writer_table.writer, disp_table.publisher, publisher_table.publisher,disp_table.memo, disp_table.create_time'
@@ -81,7 +76,6 @@ class Disp(BookData):
     戻り値はなし
     '''        
     def delete(self,id:int):
-        # self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
         # mysqlに接続
         try:
             cur = self.conn.cursor()
