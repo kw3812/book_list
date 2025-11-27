@@ -1,8 +1,8 @@
 import subprocess
 import sys
-import def_url
+from def_path import XAMPP_PATH
 
 #subprocess.Popen(r'D:\xampp\xampp_stop.exe',shell = True)
-subprocess.Popen(f'{def_url.xammp_url}/apache_stop.bat',shell = True)
-subprocess.Popen(f'{def_url.xammp_url}/mysql_stop.bat',shell = True)
+subprocess.Popen(f'{XAMPP_PATH}/apache_stop.bat',shell = True)
+subprocess.Popen(f'{XAMPP_PATH}/mysql_stop.bat',shell = True)
 sys.exit()    

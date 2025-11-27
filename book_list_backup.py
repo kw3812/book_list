@@ -1,11 +1,11 @@
 import subprocess
-import def_url
+from def_path import XAMPP_PATH, BACKUP_PATH
 
 class DataBackup:
     def __init__(self):
         # MySQLの設定
-        self.mysql_bin_path = f"{def_url.xammp_url}/mysql/bin"
-        self.backup_file = f"{def_url.xammp_backup_url}/book_list_bakup.dump"
+        self.mysql_bin_path = f"{XAMPP_PATH}/mysql/bin"
+        self.backup_file = f"{BACKUP_PATH}/book_list_bakup.dump"
 
         
     def deta_backup(self):

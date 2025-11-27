@@ -15,7 +15,7 @@ from gui_catalog_insert import gui_insert as gci
 from gui_chart import veiw_chart
 import book_json 
 from  book_list_backup import DataBackup
-import def_url
+from def_path import XAMPP_PATH, APP_PATH, UPLOAD_PATH
 
 # ＧＵＩの作成  
 root_menu = tk.Tk()
@@ -69,17 +69,15 @@ def data_backup():
     book_json.json_write(df_disp, df_book)
 
     # JSONファイルをコピー
-    url_org = def_url.book_url
     # アップロード用のフォルダ
-    url_copy = def_url.copy_url
-    shutil.copy2(f'{url_org}/book.json', f'{url_copy}/book.json')
+    shutil.copy2(f'{APP_PATH}/book.json', f'{UPLOAD_PATH}/book.json')
     # backup
     db = DataBackup()
     db.deta_backup()
 
 def click_end():
-    subprocess.Popen(f'{def_url.xammp_url}/apache_stop.bat',shell = True)
-    subprocess.Popen(f'{def_url.xammp_url}/mysql_stop.bat',shell = True)
+    subprocess.Popen(f'{XAMPP_PATH}/apache_stop.bat',shell = True)
+    subprocess.Popen(f'{XAMPP_PATH}/mysql_stop.bat',shell = True)
 
     # プログラム自体の終了
     raise SystemExit

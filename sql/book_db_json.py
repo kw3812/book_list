@@ -1,11 +1,11 @@
 import MySQLdb
-import book_env
+from book_env import USER, PASSWORD, HOST, DB, CHARSET
 
 
 # 引数はソート用テキストと読書状態を示すテキストで、戻り値はSQLの結果をタプルで返す。
 def book_list(table_name) ->tuple:
     try:
-        conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        conn = MySQLdb.connect(user=USER, passwd=PASSWORD, host=HOST, db=DB, charset=CHARSET)
         cur = conn.cursor()
         # テーブルのカラム
         col_book = f'{table_name}.id, {table_name}.title, {table_name}.writer, {table_name}.publisher,{table_name}.memo,{table_name}.create_time'

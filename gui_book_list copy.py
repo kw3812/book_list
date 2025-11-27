@@ -1,61 +1,60 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+import re
 from typing import Union
 # リスト表示用ＳＱＬ
 # キーワード検索用ＳＱＬ
 from dbc_book import Book
 # 書籍データ＋廃棄書籍のＳＱＬ
-# from dbc_union import UnionTable
+from dbc_union import UnionTable
+# 個別（詳細）表示用ＳＱＬ
+from gui_book_detail import Detail
 # 詳細画面 
-# from gui_disp_detail import DispDetail
-from gui_book_list_event import BookListEvent
+from gui_disp_detail import DispDetail
 # 検索判定
 from search_word import SearchWord
 
 class BookList:
 # ＳＱＬを受け取ってＧＵＩを表示する関数を呼ぶ
     def __init__(self):
+        # 検索フラグのクラスを実装
+        self.search_word = SearchWord()
+        
         # 初期値の設定　--------------------------------------------------------------
         self.sorted = 'ID降順'
         self.state = '全て'
         # リスト表示用のＳＱＬを呼ぶ
         book = Book()
         self.result,self.count_all = book.list(self.sorted,self.state)
-        # 検索フラグのクラスを実装
-        self.event = BookListEvent()
-        self.search = SearchWord()
 
-    def list_view(self):            
-    
-        '''     ------------------------------------------------------------
-        解除ボタンクリック (初期値に戻す)
-        検索テキストを削除
-        コンボボックスを初期値に
+    def list_view(self):
+        ''' --------------------------------------------------------------
+        IDを元に詳細画面を開く
+        disposalがTrueだったら廃棄書籍テーブル
+        Falseだったら書籍テーブル    
         '''
-        def _click_clear(event):
-            self.search = SearchWord()
-            self.search.search_flag = False
-            seach_text.delete(0, tk.END) 
-            check_box.set(False)
-            combo_state.set('全て')
-            combo_sort.set('ＩＤ降順')
-            _select_sql()
+        def _click_detail(event,id,disp):
+            if disp == 1:
+                disp = DispDetail(id)
+                disp.detail_gui()
+            else: 
+                detai = Detail(id)       
+                detai.gui_detail()
 
         # 検索処理---------------------------------------------------------
         def _click_search(event):
             # 検索フラグを立てる（ＳＱＬの判定用）
-            self.search.search_flag = True
-            _select_sql()
-
-
-        # 未読/読書中/既読の抽出--------------------------------------------------
-        def _state_list(event):
-            self.search.search_flag = False
-            check_box.set(False)
+            self.search_word.search_flag = True
             _select_sql()
 
         # ソート用コンボボックス---------------------------------------------------
         def _sort_list(event):
+            _select_sql()
+
+        # 未読/読書中/既読の抽出--------------------------------------------------
+        def _state_list(event):
+            self.search_word. search_flag = False
+            check_box.set(False)
             _select_sql()
 
         ''' --------------------------------------------------------------------
@@ -63,26 +62,54 @@ class BookList:
         get()メソッドは、tk.Checkbuttonではなく、tk.BooleanVar()にある
         '''        
         def _change_disp():
-            self.search.search_flag = False
             seach_text.delete(0, tk.END) 
+            self.search_word. search_flag = False
             _select_sql()
 
         # ボタンクリック時のＳＱＬ選択-------------------------------------------------
         def _select_sql():
             check_flg = check_box.get() 
+            search_flag = self.search_word.search_flag
             input_text = seach_text.get().strip()
-            search_flag = self.search.search_flag
-            state = combo_state.get()
-            sort = combo_sort.get()
-            words = self.search.get_keyword(input_text)
             if len(input_text) == 0 or len(input_text) == None:
                 print('検索ワードが未入力です。')
             else:
-                words = self.search.get_keyword(input_text)   
-            result,count_all = self.event.select_sql(check_flg, search_flag, state, sort, words)
-            # widgetの再作成とデータ件数表示
-            gui_data(result,count_all) 
+                words = self.search_word.get_keyword(input_text)   
+            state = combo_state.get()
+            sort = combo_sort.get()
 
+            # リスト表示用のＳＱＬを呼ぶ
+            if  search_flag == True:
+                if check_flg == True:
+                    union = UnionTable()
+                    result,count_all = union.search(words)
+                else:
+                    book = Book()
+                    result,count_all = book.search(words,sort)
+            else:
+                if check_flg == True:
+                    union = UnionTable()
+                    result,count_all = union.list(sort)
+                else:
+                    book = Book()
+                    result,count_all = book.list(sort,state)
+            # widgetの再作成とデータ件数表示
+            count_i = gui_data(result,count_all) 
+
+        '''     ------------------------------------------------------------
+        解除ボタンクリック (初期値に戻す)
+        検索テキストを削除
+        コンボボックスを初期値に
+        '''
+        def _click_clear(event):
+            check_box.set(False)
+            self.search_word. search_flag = False
+            seach_text.delete(0, tk.END) 
+            combo_state.set('全て')
+            combo_sort.set('ＩＤ降順')
+            _select_sql()
+            
+    
         # ＧＵＩの作成  ----------------------------------------------
         root_li = tk.Toplevel()
         # root_li = tk.Tk()
@@ -224,7 +251,7 @@ class BookList:
             def _on_item_click(event):
                 item = tree.selection()[0]
                 list_id = tree.item(item, 'values')[0]
-                self.event.click_detail(list_id,disposals)
+                _click_detail(event, list_id,disposals)
 
             tree.bind('<ButtonRelease-1>', _on_item_click)
 

@@ -1,12 +1,12 @@
 import MySQLdb
-import book_env
+from book_env import USER, PASSWORD, HOST, DB, CHARSET
 from abc import ABCMeta, abstractmethod
 # import abc
 
 class BookData(metaclass=ABCMeta):
 
     def __init__(self):
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        self.conn = MySQLdb.connect(user=USER, passwd=PASSWORD, host=HOST, db=DB, charset=CHARSET)
 
     @abstractmethod
     def list(self):

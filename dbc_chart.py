@@ -1,9 +1,9 @@
 import MySQLdb
-import book_env
+from book_env import USER, PASSWORD, HOST, DB, CHARSET
 
 class Chart():
     def __init__(self):
-        self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
+        self.conn = MySQLdb.connect(user=USER, passwd=PASSWORD, host=HOST, db=DB, charset=CHARSET)
 
     # 著者別カウントグラフ用の集計
     def writer_count(self):
@@ -74,10 +74,10 @@ class Chart():
             cur.close()
             self.conn.close()
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
-    #result = writer_count()
-    result = publisher_count()
-    print(result)
+#     #result = writer_count()
+#     result = publisher_count()
+#     print(result)
 
 
