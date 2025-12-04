@@ -30,6 +30,7 @@ def list_view():
         gui_writer_detail(list_id)
 
     def click_clear(event):
+        count_id.delete(0, tk.END)
         seach_text.delete(0, tk.END)
         combo_sort.delete(0, tk.END)
         combo_sort.insert(0, 'ＩＤ降順')

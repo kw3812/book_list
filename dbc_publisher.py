@@ -10,29 +10,25 @@ class Publisher(BookData, ApplyTo):
     return result（データリスト）
     '''
     def list(self,sort:str)->tuple:
+        cols = 'id, publisher, rubi, memo'
+        match sort:
+            case '出版社昇順':
+                sort = 'rubi ASC'
+            case '出版社降順':
+                sort = 'rubi DESC'
+            case 'ＩＤ昇順':
+                sort = 'id ASC'
+            case _:
+                sort = 'id DESC'
+        # sql = f"SELECT {cols} FROM publisher_table ORDER BY {sort} LIMIT 0,30"
+        sql = f"SELECT {cols} FROM publisher_table ORDER BY {sort} "
         try:
-            cur = self.conn.cursor()
-            cols = 'id, publisher, rubi, memo'
-            match sort:
-                case '出版社昇順':
-                    sort = 'rubi ASC'
-                case '出版社降順':
-                    sort = 'rubi DESC'
-                case 'ＩＤ昇順':
-                    sort = 'id ASC'
-                case _:
-                    sort = 'id DESC'
-            # sql = f"SELECT {cols} FROM publisher_table ORDER BY {sort} LIMIT 0,30"
-            sql = f"SELECT {cols} FROM publisher_table ORDER BY {sort} "
-
-            cur.execute(sql)
-            result = cur.fetchall()
-            return result
+            with self.cursor() as cur:
+                cur.execute(sql)
+                result = cur.fetchall()
+                return result
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     出版社データ（個別）
@@ -40,17 +36,14 @@ class Publisher(BookData, ApplyTo):
     return result（該当データ）
     '''        
     def detail(self,id:int)->tuple:
+        sql = "SELECT * FROM publisher_table WHERE id = %s"
         try:
-            cur = self.conn.cursor()
-            sql = f"SELECT * FROM publisher_table WHERE id = {id}"
-            cur.execute(sql )
-            result = cur.fetchall()
-            return result
+            with self.cursor() as cur:
+                cur.execute(sql, (id,) )
+                result = cur.fetchall()
+                return result
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     出版社検索
@@ -58,19 +51,17 @@ class Publisher(BookData, ApplyTo):
     return result（データリスト）
     '''        
     def search(self,word:str)->tuple:
+        # キーワード一つでタイトルとメモと著者から検索（words）
+        search_word = f'%{word}%'
+        keyword = "publisher LIKE %s OR memo LIKE %s"
+        sql = f"SELECT * FROM publisher_table WHERE {keyword} "
         try:
-            cur = self.conn.cursor()
-                        # キーワード一つでタイトルとメモと著者から検索（words）
-            keyword = f"publisher LIKE '%{word}%' OR memo LIKE '%{word}%'"
-            sql = f"SELECT * FROM publisher_table WHERE {keyword} "
-            cur.execute(sql)
-            result = cur.fetchall()
-            return result
+            with self.cursor() as cur:
+                cur.execute(sql, (search_word,search_word))
+                result = cur.fetchall()
+                return result
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     出版社データ追加
@@ -78,23 +69,17 @@ class Publisher(BookData, ApplyTo):
     return --
     '''        
     def insert(self,publisher:str,rubi:str,memo:str):
-        # mysqlに接続
+        sql = "INSERT INTO publisher_table(publisher,rubi,memo) VALUES(%s, %s, %s)"
+        val = (publisher,rubi,memo)
+        sql_id ="SELECT LAST_INSERT_ID() FROM writer_table"
         try:
-            cur = self.conn.cursor()
-            sql = "INSERT INTO publisher_table(publisher,rubi,memo) VALUES(%s, %s, %s)"
-            val = (publisher,rubi,memo)
-            sql_id ="SELECT LAST_INSERT_ID() FROM writer_table"
-            cur.execute(sql, val)
-            cur.execute(sql_id )
-            result = cur.fetchone()
+            with self.cursor() as cur:
+                cur.execute(sql, val)
+                cur.execute(sql_id )
+                result = cur.fetchone()
+                return result
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        else:
-            self.conn.commit() 
-            return result
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     出版社データ変更・更新
@@ -102,43 +87,27 @@ class Publisher(BookData, ApplyTo):
     return --
     '''        
     def update(self,publisher:str,rubi:str,memo:str,id:int):
-        # mysqlに接続
+        sql = "UPDATE publisher_table SET publisher=%s,rubi=%s,memo=%s WHERE id = %s "
+        val = (publisher,rubi,memo,id)
         try:
-            cur = self.conn.cursor()
-            # ＳＱＬ　
-            sql = "UPDATE publisher_table SET publisher=%s,rubi=%s,memo=%s WHERE id = %s "
-            val = (publisher,rubi,memo,id)
-            cur.execute(sql, val)
+            with self.cursor() as cur:
+                cur.execute(sql, val)
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        else:
-            self.conn.commit()    
-        finally:
-            cur.close()
-            self.conn.close()
-
     '''
     出版社データ削除
     param ID
     return --
     '''        
     def delete(self,id:int):
-        # mysqlに接続
+        sql = "DELETE FROM publisher_table WHERE id = %s "
         try:
-            cur = self.conn.cursor()
-            # ＳＱＬ　
-            sql = "DELETE FROM publisher_table WHERE id = %s "
-            # データはタプルにする必要がある（ , を付けるとタプルに）
-            cur.execute(sql, (id,))
+            with self.cursor() as cur:
+                cur.execute(sql, (id,))
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        else:
-            self.conn.commit()    
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     出版社名からＩＤを求める
@@ -146,17 +115,14 @@ class Publisher(BookData, ApplyTo):
     return result（ID or None）
     '''        
     def search_id(self,word:str)->Optional[int]:
+        sql = "SELECT id, publisher FROM publisher_table WHERE publisher = %s"
         try:
-            cur = self.conn.cursor()
-            sql = f"SELECT id, publisher FROM publisher_table WHERE publisher = '{word}'"
-            cur.execute(sql )
-            result = cur.fetchall()
-            return result[0][0]
+            with self.cursor() as cur:
+                cur.execute(sql, (word,) )
+                result = cur.fetchall()
+                return result[0][0]
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
-        finally:
-            cur.close()
-            self.conn.close()
 
     '''
     特定の出版社の書籍リスト
@@ -164,17 +130,17 @@ class Publisher(BookData, ApplyTo):
     return result（該当書籍リスト）
     '''        
     def book_list(self,id:int)->tuple:
+        col_book = 'book_table.id, book_table.title, book_table.writer, book_table.publisher'
+        col_writer = 'writer_table.id, writer_table.writer '
+        col_publisher = 'publisher_table.id, publisher_table.publisher'
+        # テーブル（外部結合）
+        tables ='book_table LEFT JOIN writer_table ON book_table.writer = writer_table.id LEFT JOIN publisher_table ON book_table.publisher = publisher_table.id'
+        sql = f"SELECT {col_book},{col_writer},{col_publisher} FROM {tables} WHERE book_table.publisher = %s"
         try:
-            cur = self.conn.cursor()
-            col_book = 'book_table.id, book_table.title, book_table.writer, book_table.publisher'
-            col_writer = 'writer_table.id, writer_table.writer '
-            col_publisher = 'publisher_table.id, publisher_table.publisher'
-            # テーブル（外部結合）
-            tables ='book_table LEFT JOIN writer_table ON book_table.writer = writer_table.id LEFT JOIN publisher_table ON book_table.publisher = publisher_table.id'
-            sql = f"SELECT {col_book},{col_writer},{col_publisher} FROM {tables} WHERE book_table.publisher = {id}"
-            cur.execute(sql )
-            result = cur.fetchall()
-            return result
+            with self.cursor() as cur:
+                cur.execute(sql, (id,) )
+                result = cur.fetchall()
+                return result
 
         except Exception as e:
             print('データベースの接続に失敗しました。',e)
