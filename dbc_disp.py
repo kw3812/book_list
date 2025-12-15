@@ -71,19 +71,4 @@ class Disp(BookData):
         pass
     def search(self):
         pass
-    # データ総数
-    # def book_all(self) -> tuple:
-    #     self.conn = MySQLdb.connect(user=book_env.user, passwd=book_env.passwd, host=book_env.host, db=book_env.db, charset=book_env.charset)
-    #     try:
-    #         cur = self.conn.cursor()
-    #         sql = "SELECT count(*) FROM disp_table"
-    #         cur.execute(sql, )
-    #         result = cur.fetchone()
-    #         return result
-    #     except Exception as e:
-    #         print('データベースの接続に失敗しました。',e)
-    #     finally:
-    #         cur.close()
-    #         self.conn.close()
-
 

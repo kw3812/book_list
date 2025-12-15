@@ -13,7 +13,7 @@ def get_logger(logger_name:str)->logging.Logger:
     # レベルをINFO以上に
     logger.setLevel(logging.INFO)
     # 出力先ファイル名
-    handler = logging.FileHandler(filename='./log/log.txt', encoding='utf-8')
+    handler = logging.FileHandler(filename='./log/log.log', encoding='utf-8')
     # ハンドラーのレベルもINFO以上に
     handler.setLevel(logging.INFO)
     handler.setFormatter(formatter)
@@ -35,7 +35,7 @@ def get_logger2(logger_name: str) -> logging.Logger:
     if not logger.handlers:  # すでにハンドラが存在する場合は追加しな
         # 1日ごとにローテーション、7日分残して古いものは削除
         handler = TimedRotatingFileHandler(
-            filename='./log/log.txt',
+            filename='./log/log.log',
             when='MIDNIGHT',       # 日付が変わるタイミング
             interval=1,     # 1日ごとにローテーション
             backupCount=7,  # 7日分残す（8日目以降は削除）
