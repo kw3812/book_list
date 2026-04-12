@@ -6,7 +6,7 @@ import shutil
 import subprocess
 from gui_book_list import BookList
 from gui_book_insert import gui_insert
-from gui_writer_list import list_view as gwl
+from gui_writer_list import WriterList
 from gui_writer_insert import writer_insert as gwi
 from gui_publisher_list import list_view as gpl
 from gui_publisher_insert import publisher_insert as gpi
@@ -43,7 +43,8 @@ def open_book_list():
 def open_book_insert():
     gui_insert()
 def open_writer_list():
-    gwl()
+    wl = WriterList()
+    wl.list_view()
 def open_writer_insert():
     gwi()
 def open_publisher_list():

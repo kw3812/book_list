@@ -4,7 +4,7 @@ import re
 from tkinter import scrolledtext 
 from tkinter import messagebox
 from dbc_writer import Writer
-from gui_writer_detail import gui_writer_detail
+from gui_writer_detail import WriterDtail
 from validate import v_rubi2
 from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
@@ -40,7 +40,8 @@ def writer_insert():
             text_writer.delete(0, tk.END)
             text_memo.delete("1.0","end")
             # 生成されたＩＤを元に詳細画面を開く
-            gui_writer_detail(last_id[0])
+            wd = WriterDtail(last_id[0])
+            wd.gui_writer_detail()
             root_rins.destroy()
 
         else:

@@ -5,120 +5,115 @@ import tkinter.ttk as ttk
 # 個別（詳細）表示用ＳＱＬ
 # キーワード検索用ＳＱＬ
 from dbc_writer import Writer
-from gui_writer_detail import gui_writer_detail
+from gui_writer_detail import WriterDtail
 from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
-# ＳＱＬを受け取ってＧＵＩを表示する関数を呼ぶ
-def list_view():
-    sort = 'ID降順'
-    # リスト表示用のＳＱＬを呼ぶ
-    ｗriter = Writer()
-    result = ｗriter.list(sort)
+class WriterList:
+    def __init__(self):
+        sort = 'ID降順'
+        # リスト表示用のＳＱＬを呼ぶ
+        ｗriter = Writer()
+        self.result = ｗriter.list(sort)
+        # ＧＵＩの作成  ------------------------------------------------  
+        self.root = tk.Toplevel()
+        self.root.title('著者リスト')
+        self.root.geometry('400x600+610+80')
+        self.root.configure(bg=BACK_COLOR)
 
-    def click_search(event):
-        input_text = seach_text.get()
+    def _click_search(self, event):
+        input_text = self.seach_text.get()
         ｗriter = Writer()
         result = ｗriter.search(input_text)
-        gui_data(result)
+        self._gui_data(result)
 
-    def sort_list(event):
-        sort = combo_sort.get()
+    def _sort_list(self, event):
+        sort = self.combo_sort.get()
         ｗriter = Writer()
         result = ｗriter.list(sort)
-        gui_data(result)
+        self._gui_data(result)
 
-    def click_detail(event, list_id):
-        gui_writer_detail(list_id)
+    def _click_detail(self, event, list_id):
+        wd = WriterDtail(list_id)
+        wd.gui_writer_detail()
 
-    def click_clear(event):
-        count_id.delete(0, tk.END)
-        seach_text.delete(0, tk.END)
-        combo_sort.delete(0, tk.END)
-        combo_sort.insert(0, 'ＩＤ降順')
+    def _click_clear(self, event):
+        self.count_id.delete(0, tk.END)
+        self.seach_text.delete(0, tk.END)
+        self.combo_sort.delete(0, tk.END)
+        self.combo_sort.insert(0, 'ＩＤ降順')
         ｗriter = Writer()
         result = ｗriter.list('ＩＤ降順')
-        gui_data(result)
-
-    # ＧＵＩの作成  ------------------------------------------------  
-    root_li = tk.Toplevel()
-    # root_li = tk.Tk()
-
-    root_li.title('著者リスト')
-    root_li.geometry('400x600+610+80')
-    root_li.configure(bg=BACK_COLOR)
-
-    frame_hed = tk.Frame(root_li, width=380, height=100, pady=5, padx=20)
-    frame_hed.configure(bg=BACK_COLOR)
-
-    #  件数表示用
-    count_id = tk.Entry(frame_hed, width=6, bg=TEXT_BOX_COLOR, justify="center")
-    count_id.place(x=20, y=10)
-    
-    # sort Combobox
-    sort_value = ('著者昇順','著者降順','ＩＤ降順','ＩＤ昇順')
-    combo_sort = ttk.Combobox(frame_hed,width=10, values= sort_value )
-    combo_sort.place(x=120, y=10)
-    combo_sort.insert(0,'ＩＤ降順')
-    combo_sort.bind('<<ComboboxSelected>>',  sort_list)
-
-    # 検索用テキスト
-    seach_text = tk.Entry(frame_hed, width=20, bg=TEXT_BOX_COLOR)
-    seach_text.place(x=20, y=52)
-
-    # 検索ボタン
-    button_search = tk.Button(frame_hed, width=5, bg=BUTTON_COLOR, text='検索')
-    button_search.place(x=150, y=50)
-    #<ButtonPress> 左クリックイベント
-    # リストをクリアする関数と、検索関数（ＳＱＬ）を呼ぶ
-    button_search.bind("<ButtonPress>", click_search, "+")
-
-    # 解除（初期化）ボタン
-    button_clear = tk.Button(frame_hed, width=5, padx=2, bg=BUTTON_COLOR, text='解除')
-    button_clear.place(x=200, y=50)
-    button_clear.bind('<ButtonPress>', click_clear)
-
-    frame_hed.grid(row=0, column=0)
-
-    # Treeview（テーブル形式のウィジェット）を作成
-    columns = ('ID', '著者')
-    tree = ttk.Treeview(root_li, columns=columns, show='headings', height=20)
-    style = ttk.Style()
-    style.configure("Treeview.Heading", font=("",13))
-    style.configure("Treeview", background=BACK_COLOR, font=("",13))
-
-    tree.heading('ID', text='ID')
-    tree.heading('著者', text='著者')
-
-    # 垂直スクロールバーを追加
-    scrollbar = ttk.Scrollbar(root_li, orient=tk.VERTICAL, command=tree.yview)
-    tree.configure(yscrollcommand=scrollbar.set)
-    tree.grid(row=1, column=0, sticky='nsew')
-    scrollbar.grid(row=1, column=1, sticky='ns')
+        self._gui_data(result)
 
     # Treeviewにデータを挿入
-    def gui_data(result: tuple):
+    def _gui_data(self, result: tuple):
         # Treeviewの既存データをクリア
-        tree.delete(*tree.get_children())
+        self.tree.delete(*self.tree.get_children())
         for i, data in enumerate(result):
-            tree.insert("", tk.END, values=(data[0], data[1]))
+            self.tree.insert("", tk.END, values=(data[0], data[1]))
+            # 初期データ表示
+            # 件数表示 
+            count_i = i-1   
+            self.count_id.insert(0,f'{count_i}件')
+            # return count_i
 
-        # Treeviewの行がクリックされたときのイベントバインド
-        def on_item_click(event):
-            item = tree.selection()[0]
-            list_id = tree.item(item, 'values')[0]
-            click_detail(event, list_id)
+    # Treeviewの行がクリックされたときのイベントバインド
+    def _on_item_click(self, event):
+        item = self.tree.selection()[0]
+        list_id = self.tree.item(item, 'values')[0]
+        self._click_detail(event, list_id)
 
-        tree.bind('<ButtonRelease-1>', on_item_click)
+        # self.tree.bind('<ButtonRelease-1>', self._on_item_click)
 
-        # 初期データ表示
-        # 件数表示 
-        count_i = i-1   
-        count_id.insert(0,f'{count_i}件')
-        return count_i
+    def list_view(self):
+        frame_hed = tk.Frame(self.root, width=380, height=100, pady=5, padx=20)
+        frame_hed.configure(bg=BACK_COLOR)
 
-    count_i = gui_data(result)
+        #  件数表示用
+        self.count_id = tk.Entry(frame_hed, width=6, bg=TEXT_BOX_COLOR, justify="center")
+        self.count_id.place(x=20, y=10)
+        
+        # sort Combobox
+        sort_value = ('著者昇順','著者降順','ＩＤ降順','ＩＤ昇順')
+        self.combo_sort = ttk.Combobox(frame_hed,width=10, values= sort_value )
+        self.combo_sort.place(x=120, y=10)
+        self.combo_sort.insert(0,'ＩＤ降順')
+        self.combo_sort.bind('<<ComboboxSelected>>',  self._sort_list)
 
-    root_li.mainloop() 
-       
-if __name__ == '__main__':
-    list_view()
+        # 検索用テキスト
+        self.seach_text = tk.Entry(frame_hed, width=20, bg=TEXT_BOX_COLOR)
+        self.seach_text.place(x=20, y=52)
+
+        # 検索ボタン
+        button_search = tk.Button(frame_hed, width=5, bg=BUTTON_COLOR, text='検索')
+        button_search.place(x=150, y=50)
+        #<ButtonPress> 左クリックイベント
+        # リストをクリアする関数と、検索関数（ＳＱＬ）を呼ぶ
+        button_search.bind("<ButtonPress>", self._click_search, "+")
+
+        # 解除（初期化）ボタン
+        button_clear = tk.Button(frame_hed, width=5, padx=2, bg=BUTTON_COLOR, text='解除')
+        button_clear.place(x=200, y=50)
+        button_clear.bind('<ButtonPress>', self._click_clear)
+
+        frame_hed.grid(row=0, column=0)
+
+        # Treeview（テーブル形式のウィジェット）を作成
+        columns = ('ID', '著者')
+        self.tree = ttk.Treeview(self.root, columns=columns, show='headings', height=20)
+        style = ttk.Style()
+        style.configure("Treeview.Heading", font=("",13))
+        style.configure("Treeview", background=BACK_COLOR, font=("",13))
+        self.tree.bind('<ButtonRelease-1>', self._on_item_click)
+        self.tree.heading('ID', text='ID')
+        self.tree.heading('著者', text='著者')
+
+        # 垂直スクロールバーを追加
+        scrollbar = ttk.Scrollbar(self.root, orient=tk.VERTICAL, command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        self.tree.grid(row=1, column=0, sticky='nsew')
+        scrollbar.grid(row=1, column=1, sticky='ns')
+
+        self._gui_data(self.result)
+
+        
