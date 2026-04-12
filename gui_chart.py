@@ -2,6 +2,8 @@ import tkinter as tk
 import chart_writer_bar
 import chart_publisher_bar
 import chart_disp_pi
+from def_param import BACK_COLOR
+
 
 def close_win(root_chart):
     root_chart.quit()
@@ -17,11 +19,11 @@ def veiw_chart():
     root_chart.protocol("WM_DELETE_WINDOW", lambda :close_win(root_chart))
     root_chart.geometry("450x900+700+30")
     root_chart.title("グラフ:著者/出版社/廃棄率" )
-    canvas_w = tk.Canvas(root_chart, bg="orange", height=300, width=450) 
+    canvas_w = tk.Canvas(root_chart, bg=BACK_COLOR, height=300, width=450) 
     canvas_w.place(x=0, y=0)
-    canvas_p = tk.Canvas(root_chart, bg="orange", height=300, width=450) 
+    canvas_p = tk.Canvas(root_chart, bg=BACK_COLOR, height=300, width=450) 
     canvas_p.place(x=0, y=300)
-    canvas_u = tk.Canvas(root_chart, bg="orange", height=300, width=450) 
+    canvas_u = tk.Canvas(root_chart, bg=BACK_COLOR, height=300, width=450) 
     canvas_u.place(x=0, y=600)
 
     img_w = tk.PhotoImage(master=root_chart, file="image/writer_bar_chart.png", width=450, height=300)

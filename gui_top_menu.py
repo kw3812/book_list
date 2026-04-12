@@ -15,19 +15,12 @@ from gui_catalog_insert import gui_insert as gci
 from gui_chart import veiw_chart
 import book_json 
 from  book_list_backup import DataBackup
-from def_path import XAMPP_PATH, APP_PATH, UPLOAD_PATH
+from def_param import XAMPP_PATH, APP_PATH, UPLOAD_PATH, BACK_COLOR, BUTTON_COLOR, BUTTON_COLOR2, TEXT_COLOR
 
 # ＧＵＩの作成  
 root_menu = tk.Tk()
 root_menu.title('書籍データ')
 root_menu.geometry('500x570+100+100')
-# 背景色
-back_color = '#FFFFCC'
-# ボタンの色
-button_color = '#FFCC66'
-button_color2 ='#FFCC99'
-# 文字色
-text_color = '#FF3333'
 #　メニューバー
 def click_version():
     messagebox.showinfo('version情報', 'Books_data:version 1.1')
@@ -41,7 +34,7 @@ v_menu.add_command(label='version情報',command = click_version)
 
 # GUI
 frame_menu = tk.Frame(root_menu, width=500, height=460, pady=50, padx=60)
-frame_menu.configure(bg=back_color)
+frame_menu.configure(bg=BACK_COLOR)
 frame_menu.grid(row=0, column=0)
 
 def open_book_list():
@@ -86,32 +79,32 @@ def click_chart():
     veiw_chart()
 
 # title label
-label_title = tk.Label(frame_menu, text='BooksData', background=back_color, font=('',24), foreground=text_color)
+label_title = tk.Label(frame_menu, text='BooksData', background=BACK_COLOR, font=('',24), foreground=TEXT_COLOR)
 label_title.grid(row=0, column=0, columnspan=2, padx=15, pady=10)
 # Button
-button_list = tk.Button(frame_menu, width=15, height=2, text='書籍リスト', command=open_book_list ,background=button_color, font=('',14))
+button_list = tk.Button(frame_menu, width=15, height=2, text='書籍リスト', command=open_book_list ,background=BUTTON_COLOR, font=('',14))
 button_list.grid(row=1, column=0,padx=15, pady=10)
-button_insert = tk.Button(frame_menu, width=15, height=2, text='本の追加', command=open_book_insert ,background=button_color, font=('',14))
+button_insert = tk.Button(frame_menu, width=15, height=2, text='本の追加', command=open_book_insert ,background=BUTTON_COLOR, font=('',14))
 button_insert.grid(row=1, column=1,padx=15, pady=10)
-button_writer_list = tk.Button(frame_menu, width=15, height=2, text='著者リスト', command=open_writer_list, background=button_color, font=('',14))
+button_writer_list = tk.Button(frame_menu, width=15, height=2, text='著者リスト', command=open_writer_list, background=BUTTON_COLOR, font=('',14))
 button_writer_list.grid(row=3, column=0,padx=15, pady=10)
-button_writer_insert = tk.Button(frame_menu, width=15, height=2, text='著者追加', command=open_writer_insert, background=button_color, font=('',14))
+button_writer_insert = tk.Button(frame_menu, width=15, height=2, text='著者追加', command=open_writer_insert, background=BUTTON_COLOR, font=('',14))
 button_writer_insert.grid(row=3, column=1,padx=15, pady=10)
-button_publisher_list = tk.Button(frame_menu, width=15, height=2, text='出版社リスト', command=open_publisher_list, background=button_color, font=('',14))
+button_publisher_list = tk.Button(frame_menu, width=15, height=2, text='出版社リスト', command=open_publisher_list, background=BUTTON_COLOR, font=('',14))
 button_publisher_list.grid(row=5, column=0,padx=15, pady=10)
-button_publisher_insert = tk.Button(frame_menu, width=15, height=2, text='出版社追加', command=open_publiser_insert, background=button_color, font=('',14))
+button_publisher_insert = tk.Button(frame_menu, width=15, height=2, text='出版社追加', command=open_publiser_insert, background=BUTTON_COLOR, font=('',14))
 button_publisher_insert.grid(row=5, column=1,padx=15, pady=10)
 
-button_catalog_list = tk.Button(frame_menu, width=15, height=2, text='その他リスト', command=open_catalog_list, background=button_color, font=('',14))
+button_catalog_list = tk.Button(frame_menu, width=15, height=2, text='その他リスト', command=open_catalog_list, background=BUTTON_COLOR, font=('',14))
 button_catalog_list.grid(row=7, column=0,padx=15, pady=10)
-button_catalog_insert = tk.Button(frame_menu, width=15, height=2, text='その他追加', command=open_catalog_insert, background=button_color, font=('',14))
+button_catalog_insert = tk.Button(frame_menu, width=15, height=2, text='その他追加', command=open_catalog_insert, background=BUTTON_COLOR, font=('',14))
 button_catalog_insert.grid(row=7, column=1,padx=15, pady=10)
 
-button_end = tk.Button(frame_menu, width=15, height=2, text='グラフ', command=click_chart, background=button_color, font=('',14))
+button_end = tk.Button(frame_menu, width=15, height=2, text='グラフ', command=click_chart, background=BUTTON_COLOR, font=('',14))
 button_end.grid(row=9, column=0,padx=15, pady=10)
-button_backup = tk.Button(frame_menu, width=15, height=2, text='バックアップ', command=data_backup, background=button_color2, font=('',14))
+button_backup = tk.Button(frame_menu, width=15, height=2, text='バックアップ', command=data_backup, background=BUTTON_COLOR2, font=('',14))
 button_backup.grid(row=10, column=0,padx=15, pady=10)
-button_end = tk.Button(frame_menu, width=15, height=2, text='終了', command=click_end, background=button_color2, font=('',14))
+button_end = tk.Button(frame_menu, width=15, height=2, text='終了', command=click_end, background=BUTTON_COLOR2, font=('',14))
 button_end.grid(row=10, column=1,padx=15, pady=10)
 
 # 境界線

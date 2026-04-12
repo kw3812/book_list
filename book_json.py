@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 import pandas as pd
 from sql import book_db_json as bj
-from def_path import APP_PATH
+from def_param import APP_PATH
 
 # 該当テーブルのデータからデータフレームを作成
 def convert_json(table_name:str) -> pd.DataFrame:

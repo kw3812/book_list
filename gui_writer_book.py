@@ -5,6 +5,7 @@ from tkinter import scrolledtext
 # from dbc_writer import Writer
 # 個別（詳細）表示用ＳＱＬ
 from gui_book_detail import Detail
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 # gui_wrier_detailからデータを受け取ってＧＵＩを表示する関数を呼ぶ
 def list_view_mini(result):
@@ -22,22 +23,16 @@ def list_view_mini(result):
     root_li = tk.Toplevel()
     root_li.title('著者別データ')
     root_li.geometry('400x400+1300+100')
-    # 背景色
-    back_color = '#FFCC66'
-    # ボタンの色
-    button_color = '#FF9933'
-    # テキストボックスの色
-    text_back_color = '#FFFFCC'
-    root_li.configure(bg=back_color)
+    root_li.configure(bg=BACK_COLOR)
 
     # フレーム
     frame_hed = tk.Frame(root_li, width=380, height=50, pady=5, padx=20)
-    frame_hed.configure(bg=back_color)
+    frame_hed.configure(bg=BACK_COLOR)
     # scrollbar------------------
     # canvas（フレームをのせて、スクロールバーを紐付ける）
     canvas_li = tk.Canvas(root_li, width=350,height=300)
     # highlightthickness(操作時に枠線が出ないようにする)
-    canvas_li.configure(bg=back_color, highlightthickness=0)
+    canvas_li.configure(bg=BACK_COLOR, highlightthickness=0)
     canvas_li.grid(row=2, column=0)
     # 垂直方向のスクロールバーを作成
     scrollbar = ttk.Scrollbar(root_li,orient=tk.VERTICAL)
@@ -52,12 +47,12 @@ def list_view_mini(result):
 
     # データのリスト表示部分
     frame_body = tk.Frame(canvas_li, width=380,height=300, pady=5, padx=20)
-    frame_body.configure(bg=back_color)
+    frame_body.configure(bg=BACK_COLOR)
     frame_hed.grid(row=0, column=0)
     frame_body.grid(row=2, column=0, sticky=tk.E)
 
     # 件数表示用
-    count_id = tk.Entry(frame_hed, width=6, bg=text_back_color)
+    count_id = tk.Entry(frame_hed, width=6, bg=TEXT_BOX_COLOR)
     count_id.place(x=20, y=10)
 
     '''
@@ -86,7 +81,7 @@ def list_view_mini(result):
             text_list_publisher.grid(row=[i], column=1, padx=2, pady=2, sticky=tk.W)
             # 詳細ボタン
             # command=click_detailではなく、bindを使うとrow（何行目）が取得できる
-            button_detail = tk.Button(frame_body, width=5, height=1, bg=button_color,  text='詳細')
+            button_detail = tk.Button(frame_body, width=5, height=1, bg=BUTTON_COLOR,  text='詳細')
             #<ButtonPress> 左クリックイベント
             # 引数で変数（該当ＩＤ）を渡す
             button_detail.bind("<ButtonPress>", lambda event, arg=list_id: click_detail(event, arg) )

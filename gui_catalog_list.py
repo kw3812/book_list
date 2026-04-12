@@ -9,6 +9,7 @@ from dbc_catalog import Catalog
 from gui_catalog_detail import Detail
 # 検索判定
 from search_word import SearchWord
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 class CatalogList:
 # ＳＱＬを受け取ってＧＵＩを表示する関数を呼ぶ
@@ -79,13 +80,7 @@ class CatalogList:
         # root_li = tk.Tk()
         root_li.title('その他書籍データ')
         root_li.geometry('960x600+610+80')
-        # 背景色
-        back_color = '#FFCC66'
-        # ボタンの色
-        button_color = '#FF9933'
-        # テキストボックスの色
-        text_back_color = '#FFFFCC'
-        root_li.configure(bg=back_color)
+        root_li.configure(bg=BACK_COLOR)
 
         '''
         コンボボックスとスクロールバーに適用するスタイルテーマ
@@ -97,10 +92,10 @@ class CatalogList:
 
         # フレーム（検索テキスト・ボタン・コンボボックス・チェックボックス）
         frame_hed = tk.Frame(root_li, width=960, height=40, pady=15, padx=0)
-        frame_hed.configure(bg=back_color)
+        frame_hed.configure(bg=BACK_COLOR)
         # フレーム（ラベル）
         frame_lable = tk.Frame(root_li, width=960, height=40, pady=5, padx=0)
-        frame_lable.configure(bg=back_color)
+        frame_lable.configure(bg=BACK_COLOR)
 
         # scrollbar------------------
         #--------------
@@ -110,10 +105,10 @@ class CatalogList:
 
         # 件数表示用    ---------------------------------------------------------------------
         id_int = tk.IntVar()
-        count_id = tk.Entry(frame_hed, width=10, bg=text_back_color, textvariable=id_int, justify="center")
+        count_id = tk.Entry(frame_hed, width=10, bg=TEXT_BOX_COLOR, textvariable=id_int, justify="center")
         count_id.grid(row=0, column=0, padx=5, sticky=tk.W)
         # 検索用テキスト
-        seach_text = tk.Entry(frame_hed, width=30, bg=text_back_color)
+        seach_text = tk.Entry(frame_hed, width=30, bg=TEXT_BOX_COLOR)
         seach_text.grid(row=0, column=1, padx=2, sticky=tk.E)
 
         # column select Combobox
@@ -125,7 +120,7 @@ class CatalogList:
         #combo_col.bind('<<ComboboxSelected>>',  col_list, "+")
         combo_col.grid(row=0, column=2, padx=5)
         # 検索ボタン
-        button_search = tk.Button(frame_hed, width=5, bg=button_color, text='検索')
+        button_search = tk.Button(frame_hed, width=5, bg=BUTTON_COLOR, text='検索')
         #<ButtonPress> 左クリックイベント
         # リストをクリアする関数と、検索関数（ＳＱＬ）を呼ぶ
         button_search.bind('<ButtonPress>',_click_search)
@@ -141,7 +136,7 @@ class CatalogList:
         combo_sort.grid(row=0, column=5, padx=5)
 
         # 解除（初期化）ボタン  -----------------------------------------------------------------
-        button_clear = tk.Button(frame_hed, width=5, padx=2, bg=button_color, text='解除')
+        button_clear = tk.Button(frame_hed, width=5, padx=2, bg=BUTTON_COLOR, text='解除')
         #<ButtonPress> 左クリックイベント
         button_clear.bind('<ButtonPress>',_click_clear)
         # button_clear.bind("<ButtonPress>", click_clear, "+")

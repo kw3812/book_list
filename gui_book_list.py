@@ -11,6 +11,7 @@ from dbc_book import Book
 from gui_book_list_event import BookListEvent
 # 検索判定
 from search_word import SearchWord
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 class BookList:
 # ＳＱＬを受け取ってＧＵＩを表示する関数を呼ぶ
@@ -88,13 +89,7 @@ class BookList:
         # root_li = tk.Tk()
         root_li.title('書籍データ')
         root_li.geometry('800x600+610+80')
-        # 背景色
-        back_color = '#FFCC66'
-        # ボタンの色
-        button_color = '#FF9933'
-        # テキストボックスの色
-        text_back_color = '#FFFFCC'
-        root_li.configure(bg=back_color)
+        root_li.configure(bg=BACK_COLOR)
 
         '''
         コンボボックスとスクロールバーに適用するスタイルテーマ
@@ -106,10 +101,10 @@ class BookList:
 
         # フレーム（検索テキスト・ボタン・コンボボックス・チェックボックス）
         frame_hed = tk.Frame(root_li, width=1300, height=40, pady=15, padx=0)
-        frame_hed.configure(bg=back_color)
+        frame_hed.configure(bg=BACK_COLOR)
         # フレーム（ラベル）
         frame_lable = tk.Frame(root_li, width=1300, height=40, pady=5, padx=0)
-        frame_lable.configure(bg=back_color)
+        frame_lable.configure(bg=BACK_COLOR)
 
         # scrollbar------------------
         #--------------
@@ -119,26 +114,26 @@ class BookList:
 
         # 件数表示用
         id_int = tk.IntVar()
-        count_id = tk.Entry(frame_hed, width=10, bg=text_back_color, textvariable=id_int, justify="center")
+        count_id = tk.Entry(frame_hed, width=10, bg=TEXT_BOX_COLOR, textvariable=id_int, justify="center")
         count_id.grid(row=0, column=0, padx=5, sticky=tk.W)
         # 検索用テキスト
-        seach_text = tk.Entry(frame_hed, width=30, bg=text_back_color)
+        seach_text = tk.Entry(frame_hed, width=30, bg=TEXT_BOX_COLOR)
         seach_text.grid(row=0, column=1, padx=2, sticky=tk.E)
         # 検索ボタン
-        button_search = tk.Button(frame_hed, width=5, bg=button_color, text='検索')
+        button_search = tk.Button(frame_hed, width=5, bg=BUTTON_COLOR, text='検索')
         #<ButtonPress> 左クリックイベント
         # リストをクリアする関数と、検索関数（ＳＱＬ）を呼ぶ
         button_search.bind('<ButtonPress>',_click_search)
         button_search.grid(row=0, column=2, padx=0, sticky=tk.W)
         # 解除（初期化）ボタン
-        button_clear = tk.Button(frame_hed, width=5, padx=2, bg=button_color, text='解除')
+        button_clear = tk.Button(frame_hed, width=5, padx=2, bg=BUTTON_COLOR, text='解除')
         #<ButtonPress> 左クリックイベント
         button_clear.bind('<ButtonPress>',_click_clear)
         # button_clear.bind("<ButtonPress>", click_clear, "+")
         button_clear.grid(row=0, column=3, padx=2, sticky=tk.W)
 
         # state Combobox(styleを先に設定)
-        style_li.configure('default.TCombobox',fieldbackground=text_back_color)
+        style_li.configure('default.TCombobox',fieldbackground=TEXT_BOX_COLOR)
         state_value = ('全て','未読', '読書中', '既読')
         combo_state = ttk.Combobox(frame_hed,width=10, values= state_value, style='default.TCombobox')
         #combo_state.insert(0,'全て')
@@ -158,7 +153,7 @@ class BookList:
         combo_sort.grid(row=0, column=5)
         #　checkbox
         check_box = tk.BooleanVar(value =False)
-        check_disp = tk.Checkbutton(frame_hed, text = '廃棄を含める', variable = check_box ,background=back_color, command=_change_disp)
+        check_disp = tk.Checkbutton(frame_hed, text = '廃棄を含める', variable = check_box ,background=BACK_COLOR, command=_change_disp)
         check_disp.grid(row=0, column=6, padx=20)
 
 

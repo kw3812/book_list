@@ -7,6 +7,7 @@ from dbc_book import Book
 from gui_book_detail import Detail
 from validate import v_rubi
 from validate import input_check
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 def gui_insert():
     # ボタンクリック処理
@@ -53,13 +54,7 @@ def gui_insert():
     root_ins = tk.Toplevel()
     root_ins.title('書籍データ')
     root_ins.geometry('600x400+610+100')
-    # 背景色
-    back_color = '#FFCC66'
-    # ボタンの色
-    button_color = '#FF9933'
-    # テキストボックスの色
-    text_back_color = '#FFFFCC'
-    root_ins.configure(bg=back_color)
+    root_ins.configure(bg=BACK_COLOR)
     
 
     # state Combobox
@@ -76,27 +71,27 @@ def gui_insert():
     Tcl関数  register(Validationの関数)
     '''
     tcl_v_rubi= root_ins.register(v_rubi)
-    label_rubi = tk.Label(root_ins, text='フリガナ', background=back_color)
+    label_rubi = tk.Label(root_ins, text='フリガナ', background=BACK_COLOR)
     label_rubi.grid(row=1, column=0, sticky=tk.E, padx=5)
-    text_rubi = tk.Entry(root_ins, width=70,background=text_back_color, validate='key',vcmd=(tcl_v_rubi, '%S')) 
+    text_rubi = tk.Entry(root_ins, width=70,background=TEXT_BOX_COLOR, validate='key',vcmd=(tcl_v_rubi, '%S')) 
     text_rubi.grid(row=1, column=1, columnspan=5, sticky=tk.W)
     # タイトルのlabelとEntry
-    label_title = tk.Label(root_ins, text='タイトル', background=back_color)
+    label_title = tk.Label(root_ins, text='タイトル', background=BACK_COLOR)
     label_title.grid(row=2, column=0, sticky=tk.E, padx=5)
-    text_title = tk.Entry(root_ins, width=40,background=text_back_color,  font=('',16))
+    text_title = tk.Entry(root_ins, width=40,background=TEXT_BOX_COLOR,  font=('',16))
     text_title.grid(row=2, column=1, columnspan=5, sticky=tk.W)
     # 著者のlabelとEntry
-    label_writer = tk.Label(root_ins, text='著者', background=back_color)
+    label_writer = tk.Label(root_ins, text='著者', background=BACK_COLOR)
     label_writer.grid(row=3, column=0,sticky=tk.E, padx=3 )
-    text_writer = tk.Entry(root_ins, width=30,background=text_back_color)
+    text_writer = tk.Entry(root_ins, width=30,background=TEXT_BOX_COLOR)
     text_writer.grid(row=3, column=1, columnspan=2, sticky=tk.W)
     # 出版社のlabelとEntry
-    label_publisher = tk.Label(root_ins,text='出版社', background=back_color)
+    label_publisher = tk.Label(root_ins,text='出版社', background=BACK_COLOR)
     label_publisher.grid(row=3, column=2, sticky=tk.E, padx=3)
-    text_publisher = tk.Entry(root_ins, width=30,background=text_back_color)
+    text_publisher = tk.Entry(root_ins, width=30,background=TEXT_BOX_COLOR)
     text_publisher.grid(row=3, column=3,columnspan=2, sticky=tk.W)
     # メモ Text
-    text_memo = tk.Text(root_ins,  width=70, height=15,background=text_back_color)
+    text_memo = tk.Text(root_ins,  width=70, height=15,background=TEXT_BOX_COLOR)
     # memo欄にスクロール（縦）を設置
     scrollbar = tk.Scrollbar(root_ins, orient=tk.VERTICAL, command=text_memo.yview)
     text_memo["yscrollcommand"] = scrollbar.set
@@ -105,7 +100,7 @@ def gui_insert():
     text_memo.grid(row=4, column=0, columnspan=4)
 
     # Button
-    button_insert = tk.Button(root_ins, width=10, text='追加', command=click_insert, background=button_color)
+    button_insert = tk.Button(root_ins, width=10, text='追加', command=click_insert, background=BUTTON_COLOR)
     button_insert.grid(row=5, column=3)
 
     # グリッド割

@@ -6,6 +6,7 @@ from tkinter import messagebox
 # 本の個別表示用ＳＱＬ
 # 更新処理用ＳＱＬ  
 from dbc_catalog import Catalog
+from def_param import BACK_COLOR, BUTTON_COLOR
 
 class Detail:
     # 引数は本のＩＤ（数値）
@@ -29,13 +30,7 @@ class Detail:
         root_dt = tk.Toplevel()
         root_dt.title('その他データ')
         root_dt.geometry('600x500+810+200')
-        # 背景色
-        back_color = '#FFCC66'
-        # ボタンの色
-        button_color = '#FF9933'
-        # テキストボックスの色
-        text_back_color = '#FFFFCC'
-        root_dt.configure(bg=back_color)
+        root_dt.configure(bg=BACK_COLOR)
 
         # コンボとスクロールで使うスタイルテーマ
         style_dt = ttk.Style()
@@ -50,37 +45,37 @@ class Detail:
         text_id = tk.Entry(root_dt, width=6, justify="center")
         text_id.grid(row=0, column=0, sticky=tk.E)
         # タイトル Entry
-        text_title = tk.Entry(root_dt, width=90, background=text_back_color ) 
+        text_title = tk.Entry(root_dt, width=90, background=BACK_COLOR ) 
         text_title.grid(row=1, column=0, columnspan=4)
         # event Entry
-        label_event = tk.Label(root_dt, text='イベント', background=back_color)
+        label_event = tk.Label(root_dt, text='イベント', background=BACK_COLOR)
         label_event.grid(row=2, column=0, sticky=tk.E)
-        text_event = tk.Entry(root_dt, width=30, background=text_back_color)
+        text_event = tk.Entry(root_dt, width=30, background=BACK_COLOR)
         text_event.grid(row=2, column=1, sticky=tk.W)
         # publisher Entry
-        label_publisher = tk.Label(root_dt,text='発行', background=back_color)
+        label_publisher = tk.Label(root_dt,text='発行', background=BACK_COLOR)
         label_publisher.grid(row=3, column=0, sticky=tk.E)
-        text_publisher = tk.Entry(root_dt, width=30,background=text_back_color)
+        text_publisher = tk.Entry(root_dt, width=30,background=BACK_COLOR)
         text_publisher.grid(row=3, column=1,sticky=tk.W )
         # store Entry
-        label_store = tk.Label(root_dt, text='入手場所', background=back_color)
+        label_store = tk.Label(root_dt, text='入手場所', background=BACK_COLOR)
         label_store.grid(row=4, column=0, sticky=tk.E)
-        text_store = tk.Entry(root_dt, width=30, background=text_back_color)
+        text_store = tk.Entry(root_dt, width=30, background=BACK_COLOR)
         text_store.grid(row=4, column=1, sticky=tk.W)
         # categry Entry
-        label_category = tk.Label(root_dt, text='カテゴリ', background=back_color)
+        label_category = tk.Label(root_dt, text='カテゴリ', background=BACK_COLOR)
         label_category.grid(row=5, column=0, sticky=tk.E)
-        text_category = tk.Entry(root_dt, width=30, background=text_back_color)
+        text_category = tk.Entry(root_dt, width=30, background=BACK_COLOR)
         text_category.grid(row=5, column=1, sticky=tk.W)
         # year Entry
-        label_year = tk.Label(root_dt, text='年', background=back_color)
+        label_year = tk.Label(root_dt, text='年', background=BACK_COLOR)
         label_year.grid(row=5, column=2, sticky=tk.E)
-        text_year = tk.Entry(root_dt, width=10, background=text_back_color)
+        text_year = tk.Entry(root_dt, width=10, background=BACK_COLOR)
         text_year.grid(row=5, column=3, sticky=tk.W)
         # メモ Text
-        text_etc = tk.Text(root_dt,  width=70, height=15, background=text_back_color)
+        text_etc = tk.Text(root_dt,  width=70, height=15, background=BACK_COLOR)
         # etc欄にスクロール（縦）を設置
-        style_dt.configure('Vertical.TScrollbar',background=back_color, troughcolor=text_back_color)
+        style_dt.configure('Vertical.TScrollbar',background=BACK_COLOR, troughcolor=BACK_COLOR)
         scrollbar = ttk.Scrollbar(root_dt, orient=tk.VERTICAL, command=text_etc.yview)
         text_etc["yscrollcommand"] = scrollbar.set
         # etc欄と同位置の右端に設置
@@ -138,9 +133,9 @@ class Detail:
                 root_dt.destroy()
             
         # 更新・削除 Button
-        button_update = tk.Button(root_dt, width=10, text='更新', command=_click_update ,background=button_color)
+        button_update = tk.Button(root_dt, width=10, text='更新', command=_click_update ,background=BUTTON_COLOR)
         button_update.grid(row=5, column=2,sticky=tk.W)
-        button_delete = tk.Button(root_dt, width=10, text='削除', command=_click_delete ,background=button_color)
+        button_delete = tk.Button(root_dt, width=10, text='削除', command=_click_delete ,background=BUTTON_COLOR)
         button_delete.grid(row=5, column=3,sticky=tk.W)
 
         root_dt.rowconfigure(0, weight=1)

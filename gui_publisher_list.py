@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from dbc_publisher import Publisher
 from gui_publisher_detail import get_publisher_id
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 def list_view():
     sort = 'ID降順'
@@ -39,16 +40,13 @@ def list_view():
     root_li
     root_li.title('出版社データ')
     root_li.geometry('400x600+610+80')
-    back_color = '#FFCC66'
-    button_color = '#FF9933'
-    text_back_color = '#FFFFCC'
-    root_li.configure(bg=back_color)
+    root_li.configure(bg=BACK_COLOR)
 
     frame_hed = tk.Frame(root_li, width=380, height=100, pady=5, padx=20)
-    frame_hed.configure(bg=back_color)
+    frame_hed.configure(bg=BACK_COLOR)
     
     # 件数表示用
-    count_id = tk.Entry(frame_hed, width=6, bg=text_back_color, justify="center")
+    count_id = tk.Entry(frame_hed, width=6, bg=TEXT_BOX_COLOR, justify="center")
     count_id.place(x=20, y=10)
 
     # ソート用コンボボックス
@@ -59,16 +57,16 @@ def list_view():
     combo_sort.bind('<<ComboboxSelected>>', sort_list)
 
     # 検索用テキスト
-    seach_text = tk.Entry(frame_hed, width=20, bg=text_back_color)
+    seach_text = tk.Entry(frame_hed, width=20, bg=TEXT_BOX_COLOR)
     seach_text.place(x=20, y=52)
 
     # 検索ボタン
-    button_search = tk.Button(frame_hed, width=5, bg=button_color, text='検索')
+    button_search = tk.Button(frame_hed, width=5, bg=BUTTON_COLOR, text='検索')
     button_search.place(x=150, y=50)
     button_search.bind('<ButtonPress>', click_search)
 
     # 解除ボタン
-    button_clear = tk.Button(frame_hed, width=5, padx=2, bg=button_color, text='解除')
+    button_clear = tk.Button(frame_hed, width=5, padx=2, bg=BUTTON_COLOR, text='解除')
     button_clear.place(x=200, y=50)
     button_clear.bind('<ButtonPress>', click_clear)
 
@@ -79,7 +77,7 @@ def list_view():
     tree = ttk.Treeview(root_li, columns=columns, show='headings', height=20)
     style = ttk.Style()
     style.configure("Treeview.Heading", font=("",13))
-    style.configure("Treeview", background=back_color, font=("",13))
+    style.configure("Treeview", background=BACK_COLOR, font=("",13))
     tree.column("ID", width=80, minwidth=30, stretch=tk.NO)
     tree.column("出版社")
     tree.heading('ID', text='ID')

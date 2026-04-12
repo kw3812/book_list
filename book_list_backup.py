@@ -1,5 +1,5 @@
 import subprocess
-from def_path import XAMPP_PATH, BACKUP_PATH
+from def_param import XAMPP_PATH, BACKUP_PATH
 
 class DataBackup:
     def __init__(self):

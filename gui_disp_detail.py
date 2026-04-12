@@ -10,6 +10,7 @@ from dbc_disp import Disp
 from validate import v_rubi
 # 空欄チェクなど
 from validate import input_check
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 class DispDetail:
     # 引数は本のＩＤ（数値）
@@ -34,13 +35,7 @@ class DispDetail:
         #root_disp = tk.Tk()
         root_disp.title('廃棄書籍データ')
         root_disp.geometry('600x400+810+200')
-        # 背景色
-        back_color = '#FFCC66'
-        # ボタンの色
-        button_color = '#FF9933'
-        # テキストボックスの色
-        text_back_color = '#FFFFCC'
-        root_disp.configure(bg=back_color)
+        root_disp.configure(bg=BACK_COLOR)
 
         # コンボとスクロールで使うスタイルテーマ
         style_dt = ttk.Style()
@@ -56,24 +51,24 @@ class DispDetail:
         text_id.grid(row=0, column=0, sticky=tk.E)
         # タイトル・フリガナ Entry
         tcl_v_rubi= root_disp.register(v_rubi)
-        text_rubi = tk.Entry(root_disp, width=70, background=text_back_color, validate='key',vcmd=(tcl_v_rubi, '%S')  ) 
+        text_rubi = tk.Entry(root_disp, width=70, background=TEXT_BOX_COLOR, validate='key',vcmd=(tcl_v_rubi, '%S')  ) 
         text_rubi.grid(row=1, column=0, columnspan=4)
-        text_title = tk.Entry(root_disp, width=40, background=text_back_color, font=('',16))
+        text_title = tk.Entry(root_disp, width=40, background=TEXT_BOX_COLOR, font=('',16))
         text_title.grid(row=2, column=0, columnspan=4)
         # 著者 Entry
-        label_writer = tk.Label(root_disp, text='著者', background=back_color)
+        label_writer = tk.Label(root_disp, text='著者', background=BACK_COLOR)
         label_writer.grid(row=3, column=0, sticky=tk.E)
-        text_writer = tk.Entry(root_disp, width=30, background=text_back_color)
+        text_writer = tk.Entry(root_disp, width=30, background=TEXT_BOX_COLOR)
         text_writer.grid(row=3, column=1, sticky=tk.W)
         # 出版社 Entry
-        label_publisher = tk.Label(root_disp,text='出版社', background=back_color)
+        label_publisher = tk.Label(root_disp,text='出版社', background=BACK_COLOR)
         label_publisher.grid(row=3, column=2, sticky=tk.E)
-        text_publisher = tk.Entry(root_disp, width=30,background=text_back_color)
+        text_publisher = tk.Entry(root_disp, width=30,background=TEXT_BOX_COLOR)
         text_publisher.grid(row=3, column=3,sticky=tk.W )
         # メモ Text
-        text_memo = tk.Text(root_disp,  width=70, height=15, background=text_back_color)
+        text_memo = tk.Text(root_disp,  width=70, height=15, background=TEXT_BOX_COLOR)
         # memo欄にスクロール（縦）を設置
-        style_dt.configure('Vertical.TScrollbar',background=back_color, troughcolor=text_back_color)
+        style_dt.configure('Vertical.TScrollbar',background=BACK_COLOR, troughcolor=TEXT_BOX_COLOR)
         scrollbar = ttk.Scrollbar(root_disp, orient=tk.VERTICAL, command=text_memo.yview)
         text_memo["yscrollcommand"] = scrollbar.set
         # memo欄と同位置の右端に設置
@@ -138,9 +133,9 @@ class DispDetail:
             root_disp.destroy()
             
         # 更新・削除 Button
-        button_update = tk.Button(root_disp, width=10, text='更新', command=_click_update ,background=button_color)
+        button_update = tk.Button(root_disp, width=10, text='更新', command=_click_update ,background=BUTTON_COLOR)
         button_update.grid(row=5, column=2,sticky=tk.W)
-        button_delete = tk.Button(root_disp, width=10, text='削除', command=_click_delete ,background=button_color)
+        button_delete = tk.Button(root_disp, width=10, text='削除', command=_click_delete ,background=BUTTON_COLOR)
         button_delete.grid(row=5, column=3,sticky=tk.W)
 
         root_disp.rowconfigure(0, weight=1)

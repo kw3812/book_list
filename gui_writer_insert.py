@@ -6,6 +6,7 @@ from tkinter import messagebox
 from dbc_writer import Writer
 from gui_writer_detail import gui_writer_detail
 from validate import v_rubi2
+from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
 def writer_insert():
         # ボタンクリック処理
@@ -50,38 +51,32 @@ def writer_insert():
     root_rins = tk.Toplevel()
     root_rins.title('著者データ')
     root_rins.geometry('600x400+610+80')
-    # 背景色
-    back_color = '#FFCC66'
-    # ボタンの色
-    button_color = '#FF9933'
-    # テキストボックスの色
-    text_back_color = '#FFFFCC'
-    root_rins.configure(bg=back_color)
+    root_rins.configure(bg=BACK_COLOR)
     frame_rubi = tk.Frame(root_rins,width=600, height=20, pady=15, padx=20)
-    frame_rubi.configure(bg=back_color)
+    frame_rubi.configure(bg=BACK_COLOR)
     frame_writer = tk.Frame(root_rins,width=600, height=20, pady=15, padx=10)
-    frame_writer.configure(bg=back_color)
+    frame_writer.configure(bg=BACK_COLOR)
     frame_memo = tk.Frame(root_rins,width=600, height=100, pady=15, padx=10)
-    frame_memo.configure(bg=back_color)
+    frame_memo.configure(bg=BACK_COLOR)
   # フリガナのlabelとEntry
     '''
     コールバック関数でTrue or Falseを受け取り、Falesの場合入力を不可にする
     Tcl関数  register(Validationの関数)
     '''
     tcl_v_rubi= root_rins.register(v_rubi2)
-    label_rubi = tk.Label(frame_rubi, text='フリガナ', background=back_color)
-    text_rubi = tk.Entry(frame_rubi, width=70,background=text_back_color, validate='key',vcmd=(tcl_v_rubi, '%S')) 
+    label_rubi = tk.Label(frame_rubi, text='フリガナ', background=BACK_COLOR)
+    text_rubi = tk.Entry(frame_rubi, width=70,background=TEXT_BOX_COLOR, validate='key',vcmd=(tcl_v_rubi, '%S')) 
     label_rubi.pack(side=tk.LEFT)
     text_rubi.pack(side=tk.RIGHT)
 
 # 著者のlabelとEntry
-    label_writer = tk.Label(frame_writer, text='著者', background=back_color)
-    text_writer = tk.Entry(frame_writer, width=40,background=text_back_color, font=('',16))
+    label_writer = tk.Label(frame_writer, text='著者', background=BACK_COLOR)
+    text_writer = tk.Entry(frame_writer, width=40,background=TEXT_BOX_COLOR, font=('',16))
     label_writer.pack(side=tk.LEFT)
     text_writer.pack(side=tk.RIGHT)
 
   # メモ Text
-    text_memo = tk.Text(frame_memo,  width=70, height=15,background=text_back_color)
+    text_memo = tk.Text(frame_memo,  width=70, height=15,background=TEXT_BOX_COLOR)
     # memo欄にスクロール（縦）を設置
     scrollbar = tk.Scrollbar(frame_memo, orient=tk.VERTICAL, command=text_memo.yview)
     text_memo["yscrollcommand"] = scrollbar.set
@@ -89,7 +84,7 @@ def writer_insert():
     scrollbar.pack(side=tk.RIGHT, fill="y")
 
     # Button
-    button_insert = tk.Button(root_rins, width=10, text='追加', command=click_insert, background=button_color)
+    button_insert = tk.Button(root_rins, width=10, text='追加', command=click_insert, background=BUTTON_COLOR)
     
     frame_rubi.pack()
     frame_writer.pack()
