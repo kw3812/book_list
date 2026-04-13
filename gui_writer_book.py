@@ -103,7 +103,7 @@ class WriterBook(tk.Toplevel):
     １行を32pxとして、動的にスクロールを変化させる
     （データ件数×32px）－フレームの高さ
     '''    
-    def scroll_view(self, count_i:int):
+    def _scroll_view(self, count_i:int):
         #スクロール範囲(1行を34pxとして行数分をスクロールさせる)
         sc_height = (count_i * 38)-300
         #print(sc_height)

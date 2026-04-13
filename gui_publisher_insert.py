@@ -4,7 +4,7 @@ import re
 from tkinter import scrolledtext 
 from tkinter import messagebox
 from dbc_publisher import Publisher
-from gui_publisher_detail import get_publisher_id
+from gui_publisher_detail import PublisherDtail
 from validate import v_rubi２
 from def_param import BACK_COLOR, BUTTON_COLOR, TEXT_BOX_COLOR
 
@@ -39,7 +39,8 @@ def publisher_insert():
             text_publisher.delete(0, tk.END)
             text_memo.delete("1.0","end")
             # 生成されたＩＤを元に詳細画面を開く
-            get_publisher_id(last_id[0])
+            pd = PublisherDtail(ast_id[0])
+            pd.get_publisher_id(l)
             root_rins.destroy()
 
         else:
