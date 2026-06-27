@@ -54,7 +54,7 @@ class WriterList:
             # 初期データ表示
             # 件数表示 
             count_i = i-1   
-            self.count_id.insert(0,f'{count_i}件')
+        self.count_id.insert(0,f'{count_i}件')
             # return count_i
 
     # Treeviewの行がクリックされたときのイベントバインド
@@ -68,7 +68,6 @@ class WriterList:
     def list_view(self):
         frame_hed = tk.Frame(self.root, width=380, height=100, pady=5, padx=20)
         frame_hed.configure(bg=BACK_COLOR)
-
         #  件数表示用
         self.count_id = tk.Entry(frame_hed, width=6, bg=TEXT_BOX_COLOR, justify="center")
         self.count_id.place(x=20, y=10)

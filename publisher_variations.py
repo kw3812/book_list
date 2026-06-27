@@ -61,5 +61,9 @@ def publisher_check(publisher:str)->str:
             publisher = 'ワック' 
         case '扶桑社' | '扶桑社新書' | '扶桑出版' :
             publisher = '扶桑社出版' 
+        case 'ちくま' | 'ちくま新書' | 'ちくま文庫' | '筑摩書店':
+            publisher = '筑摩書房' 
+        case 'ニュートン・プレス' | 'ニュートン' | 'Ｎｅｗｔｏｎ' :
+            publisher = 'ニュートンプレス' 
     return publisher     
 

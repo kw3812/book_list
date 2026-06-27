@@ -1,5 +1,5 @@
 import subprocess
-from def_path import XAMPP_PATH, APP_PATH
+from def_param import XAMPP_PATH, APP_PATH
 #from time import sleep
 
 # xammppを開く

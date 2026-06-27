@@ -15,6 +15,7 @@ from gui_catalog_insert import gui_insert as gci
 from gui_chart import veiw_chart
 import book_json 
 from  book_list_backup import DataBackup
+from ftp import ftp_upload
 from def_param import XAMPP_PATH, APP_PATH, UPLOAD_PATH, BACK_COLOR, BUTTON_COLOR, BUTTON_COLOR2, TEXT_COLOR
 
 # ＧＵＩの作成  
@@ -69,6 +70,8 @@ def data_backup():
     # backup
     db = DataBackup()
     db.deta_backup()
+    # shinobi.jpにアップロード
+    ftp_upload()
 
 def click_end():
     subprocess.Popen(f'{XAMPP_PATH}/apache_stop.bat',shell = True)

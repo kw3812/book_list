@@ -49,7 +49,7 @@ class PublisherList:
             # 初期データ表示
             # 件数表示 
             count_i = i-1   
-            self.count_id.insert(0,f'{count_i}件')
+        self.count_id.insert(0,f'{count_i}件')
 
             # self.tree.insert('', tk.END,  values=data)
 
