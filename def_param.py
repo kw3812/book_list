@@ -18,7 +18,7 @@ UPLOAD_PATH = config["PATH"]["UPLOAD_PATH"]
 # 画像読み込みフォルダ
 SHINOBI_HOST = config["PATH"]["SHINOBI_HOST"]
 SHINOBI_USER = config["PATH"]["SHINOBI_USER"]
-SHINOBI_PATH = config["PATH"]["SHINOBI_PATH"]
+SHINOBI_PASS = config["PATH"]["SHINOBI_PASS"]
 
 # GUI COLOR  #############
 BACK_COLOR = config["GUI"]["BACK_COLOR"]
